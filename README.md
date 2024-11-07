@@ -1,0 +1,1 @@
+Hola! Este es un proyecto de estudiantes de universidad de primer año echo con el fin de comprende y usar Python para conectarse a una database de forma localhost
