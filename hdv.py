@@ -1,28 +1,38 @@
 import sqlite3
 
-conexion = sqlite3.connect('hospedajedeverano.db')
-cursor = conexion.cursor()
+def mostrar_menu():
+    print("\nMenú de Opciones:")
+    print("1. Mostrar todos los nombres de los clientes")
+    print("2. Salir")
 
-#tabla de ejemplo
-cursor.execute('''
-CREATE TABLE IF NOT EXISTS usuarios (
-    id INTEGER PRIMARY KEY AUTOINCREMENT,
-    nombre TEXT NOT NULL,
-    edad INTEGER NOT NULL
-)
-''')
+def mostrar_nombres_clientes(cursor):
+    cursor.execute("SELECT Rut FROM Cliente")
+    clientes = cursor.fetchall()
 
-# Insertar un registro de ejemplo
-cursor.execute("INSERT INTO usuarios (nombre, edad) VALUES ('Juan', 25)")
+    if len(clientes) == 0:
+        print("\nNo hay clientes registrados.")
+    else:
+        print("\nNombres de los clientes:")
+        for cliente in clientes:
+            print(cliente[0]) 
 
-# Guardar (commit) los cambios
-conexion.commit()
+def main():
+    conexion = sqlite3.connect('esquema_reserva.db')
+    cursor = conexion.cursor()
 
-# Consultar los datos
-cursor.execute("SELECT * FROM usuarios")
-resultados = cursor.fetchall()
+    while True:
+        mostrar_menu()
+        opcion = input("\nElija una opción: ")
 
-for fila in resultados:
-    print(fila)
+        if opcion == '1':
+            mostrar_nombres_clientes(cursor)
+        elif opcion == '2':
+            print("Saliendo...")
+            break
+        else:
+            print("Opción no válida, intente nuevamente.")
 
-conexion.close()
+    conexion.close()
+
+if __name__ == "__main__":
+    main()
